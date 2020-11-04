@@ -1,0 +1,19 @@
+# Default ignored files
+/shelf/
+/.idea/workspace.xml
+
+#IntelliJ project directory 
+apks/
+
+# IntelliJ project files
+*.iml
+*.iws
+*.ipr
+*.apk
+*.class
+*.jar
+.idea
+.out
+
+# Mac
+.DS_Store
