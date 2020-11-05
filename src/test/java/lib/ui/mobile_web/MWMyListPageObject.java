@@ -10,6 +10,6 @@ public class MWMyListPageObject extends MyListPageObject {
     static
     {
         ARTICLE_BY_TITLE_TPL = "xpath://ul[contains(@class, 'mw-mf-watchlist-page-list')]//h3[contains(text(),'{TITLE}')]";
-        REMOVE_FROM_SAVED_BUTTON = "xpath://ul[contains(@class, 'mw-mf-watchlist-page-list')]//h3[contains(text(),'{TITLE}')]/../../div[contains(@class, 'watched')]";
+        REMOVE_FROM_SAVED_BUTTON = "xpath://ul[contains(@class, 'mw-mf-watchlist-page-list')]//h3[contains(text(),'Java (programming language)')]/../../..//*[contains(@class, 'watched')]";
     }
 }

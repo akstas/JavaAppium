@@ -30,10 +30,10 @@ abstract public class NavigationUI extends MainPageObject{
                     5
             );
         }
-        this.waitForElementPresentAndClick(
-                MY_LISTS,
-                "Cannot find navigation button to my list",
-                5
-        );
+//        this.waitForElementPresentAndClick(
+//                MY_LISTS,
+//                "Cannot find navigation button to my list",
+//                5
+//        );
     }
 }

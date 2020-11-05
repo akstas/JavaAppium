@@ -18,13 +18,11 @@ public class MyListTests extends CoreTestCase
 {
     private static final String folderName = "Learning programming";
     private static final String
-                        login = "Akstaslearnqa",
-                        password = "Akstaslearnqa123";
+                        login = "",    // yourLogin
+                        password = ""; // yourPassword
 
     @Test
-    public void testSaveFirstArticleToMyList()
-    {
-        //String folderName = "Learning programming";
+    public void testSaveFirstArticleToMyList() throws InterruptedException {
         SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
         searchPageObject
                 .initSearchInput()
@@ -44,15 +42,12 @@ public class MyListTests extends CoreTestCase
         {
             articlePageObject.clickCloseSyncYourPreferences();
         }}
-
         if (Platform.getInstance().isMW()) {
             AuthorizationPageObject Auth = new AuthorizationPageObject(driver);
             Auth.clickAuthButton();
             Auth.enterLoginData(login, password);
             Auth.submitForm();
-
             articlePageObject.waitForTitleElement();
-
             assertEquals("We are not on the same page after login.",
                     articleTitle,
                     articlePageObject.getArticleTitle());
@@ -67,7 +62,6 @@ public class MyListTests extends CoreTestCase
         if (Platform.getInstance().isAndroid()) {
             myListPageObject.openFolderByName(folderName);
         }
-
             myListPageObject.swipeByArticleToDelete(articleTitle);
     }
 }

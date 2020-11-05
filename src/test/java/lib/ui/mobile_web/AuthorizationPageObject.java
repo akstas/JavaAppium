@@ -14,12 +14,15 @@ public class AuthorizationPageObject extends MainPageObject {
         super(driver);
     }
 
-    public void clickAuthButton(){
+    public void clickAuthButton() throws InterruptedException {
+        Thread.sleep(1000);
         this.waitForElementPresent(LOGIN_BUTTON, "Cannot find auth button", 5);
         this.waitForElementPresentAndClick(LOGIN_BUTTON, "Cannot find and click auth button", 5);
     }
 
-    public void enterLoginData(String login, String password) {
+    public void enterLoginData(String login, String password) throws InterruptedException {
+        Thread.sleep(2000);
+        this.waitForElementPresent(LOGIN_INPUT, "Login form not load", 2);
         this.waitForElementPresentByIdAndSendKeys(LOGIN_INPUT, login, "Cannot find and put a login to the login input", 5);
         this.waitForElementPresentByIdAndSendKeys(PASSWORD_INPUT, password, "Cannot find and put a password to the password input", 5);
     }

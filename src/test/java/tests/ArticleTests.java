@@ -40,7 +40,7 @@ public class ArticleTests extends CoreTestCase
         articlePageObject.swipeToFooter();
     }
     @Test
-    public void testAddTwoArticleToOneFolderListEx5(){
+    public void testAddTwoArticleToOneFolderListEx5()  throws InterruptedException {
         String searchFirstValue = "Java";
         String firstTitleText = "Java (programming language)";
         String searchSecondValue = "JavaScript";

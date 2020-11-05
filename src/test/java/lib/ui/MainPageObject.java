@@ -120,6 +120,13 @@ public class MainPageObject {
             System.out.println("Method swipeUp() do nothing for platform" + Platform.getInstance().getPlatformVar());
         }
     }
+    public WebElement waitForElementPresentAndDoubleClick(String locator, String errorMessage, int timeOutInSeconds)
+    {
+        WebElement element = waitForElementPresent(locator, errorMessage, timeOutInSeconds);
+        element.click();
+        element.click();
+        return element;
+    }
     public WebElement waitForElementPresentAndClick(String locator, String errorMessage, int timeOutInSeconds)
     {
         WebElement element = waitForElementPresent(locator, errorMessage, timeOutInSeconds);

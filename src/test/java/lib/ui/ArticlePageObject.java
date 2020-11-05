@@ -123,11 +123,12 @@ abstract public class ArticlePageObject extends MainPageObject
             return titleElement.getAttribute("value");
         }
     }
-    public void addArticleToMySaved()
-    {
+    public void addArticleToMySaved() throws InterruptedException {
         if (Platform.getInstance().isMW()) {
+
             this.removeArticleFromSavedIfItAdded();
         }
+        Thread.sleep(1000);
         this.waitForElementPresentAndClick(OPTIONS_ADD_TO_MY_LIST_BUTTON, "Cannot find option to add article to read list", 5);
     }
     public boolean checkScreenSyncYourPreferences()
@@ -151,5 +152,4 @@ abstract public class ArticlePageObject extends MainPageObject
                      1);
          }
      }
-
 }
