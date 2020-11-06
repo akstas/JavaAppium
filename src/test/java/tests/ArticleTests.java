@@ -17,8 +17,8 @@ import org.junit.Test;
 public class ArticleTests extends CoreTestCase
 {
     private static final String
-            login = "Akstaslearnqa",    // yourLogin
-            password = "akstaslearnqa123"; // yourPassword
+            login = "",    // yourLogin
+            password = ""; // yourPassword
 
 
     @Test
@@ -64,7 +64,7 @@ public class ArticleTests extends CoreTestCase
         {
             articlePageObject.addArticleToMyList(folderName, true);
         } else {
-            articlePageObject.addArticleToMySaved();   // добавляем в лист Java
+            articlePageObject.addArticleToMySaved();
         }
         if (!Platform.getInstance().isMW()){
             if(articlePageObject.checkScreenSyncYourPreferences())
@@ -80,9 +80,9 @@ public class ArticleTests extends CoreTestCase
             articlePageObject.waitForTitleElement();
             assertEquals("We are not on the same page after login.",
                     articleTitle,
-                    articlePageObject.getArticleTitle());         // Залогинились сравниваем артикл страницы до логина после
+                    articlePageObject.getArticleTitle());
 
-            articlePageObject.addArticleToMySaved();  // Добавляем в лист статью
+            articlePageObject.addArticleToMySaved();
         }
         articlePageObject.closeArticle();
         searchPageObject.initSearchInput();
@@ -91,14 +91,14 @@ public class ArticleTests extends CoreTestCase
         }
         searchPageObject
                 .typeSearchLine(searchSecondValue)
-                .clickByArticleWithSubstring(secondTextElement);  // открываем вторую статью
+                .clickByArticleWithSubstring(secondTextElement);
         if (Platform.getInstance().isAndroid())
         {
             articlePageObject.addArticleToMyList(folderName, false);
         } else {
-            articlePageObject.addArticleToMySaved();  // добавляем вторую  статью
+            articlePageObject.addArticleToMySaved();
         }
-        articlePageObject.closeArticle();  //только для андроид и айос
+        articlePageObject.closeArticle();
         NavigationUI navigationUI = NavigationUIFactory.get(driver);
         navigationUI.openNavigation();
         navigationUI.clickMyLists();
