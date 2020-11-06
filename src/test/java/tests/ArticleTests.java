@@ -10,10 +10,17 @@ import lib.ui.factories.ArticlePageObjectFactory;
 import lib.ui.factories.MyListPageObjectFactory;
 import lib.ui.factories.NavigationUIFactory;
 import lib.ui.factories.SearchPageObjectFactory;
+import lib.ui.mobile_web.AuthorizationPageObject;
+import org.junit.Assert;
 import org.junit.Test;
 
 public class ArticleTests extends CoreTestCase
 {
+    private static final String
+            login = "Akstaslearnqa",    // yourLogin
+            password = "akstaslearnqa123"; // yourPassword
+
+
     @Test
     public void testCompareArticleTitle()
     {
@@ -42,27 +49,40 @@ public class ArticleTests extends CoreTestCase
     @Test
     public void testAddTwoArticleToOneFolderListEx5()  throws InterruptedException {
         String searchFirstValue = "Java";
-        String firstTitleText = "Java (programming language)";
+        String firstTitleText = "Object-oriented programming language";
         String searchSecondValue = "JavaScript";
-        String secondTextElement = "Programming language";
+        String secondTextElement = "High-level programming language";
         String folderName = "Learning programming";
-
         SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
         searchPageObject
                 .initSearchInput()
                 .typeSearchLine(searchFirstValue)
                 .clickByArticleWithSubstring(firstTitleText);
         ArticlePageObject articlePageObject = ArticlePageObjectFactory.get(driver);
-
+        String articleTitle = articlePageObject.getArticleTitle();
         if (Platform.getInstance().isAndroid())
         {
             articlePageObject.addArticleToMyList(folderName, true);
         } else {
-            articlePageObject.addArticleToMySaved();
+            articlePageObject.addArticleToMySaved();   // добавляем в лист Java
+        }
+        if (!Platform.getInstance().isMW()){
             if(articlePageObject.checkScreenSyncYourPreferences())
             {
                 articlePageObject.clickCloseSyncYourPreferences();
             }
+        }
+        if (Platform.getInstance().isMW()) {
+            AuthorizationPageObject Auth = new AuthorizationPageObject(driver);
+            Auth.clickAuthButton();
+            Auth.enterLoginData(login, password);
+            Auth.submitForm();
+            articlePageObject.waitForTitleElement();
+            assertEquals("We are not on the same page after login.",
+                    articleTitle,
+                    articlePageObject.getArticleTitle());         // Залогинились сравниваем артикл страницы до логина после
+
+            articlePageObject.addArticleToMySaved();  // Добавляем в лист статью
         }
         articlePageObject.closeArticle();
         searchPageObject.initSearchInput();
@@ -71,16 +91,18 @@ public class ArticleTests extends CoreTestCase
         }
         searchPageObject
                 .typeSearchLine(searchSecondValue)
-                .clickByArticleWithSubstring(secondTextElement);
+                .clickByArticleWithSubstring(secondTextElement);  // открываем вторую статью
         if (Platform.getInstance().isAndroid())
         {
             articlePageObject.addArticleToMyList(folderName, false);
         } else {
-            articlePageObject.addArticleToMySaved();
+            articlePageObject.addArticleToMySaved();  // добавляем вторую  статью
         }
-        articlePageObject.closeArticle();
+        articlePageObject.closeArticle();  //только для андроид и айос
         NavigationUI navigationUI = NavigationUIFactory.get(driver);
+        navigationUI.openNavigation();
         navigationUI.clickMyLists();
+
         MyListPageObject myListPageObject = MyListPageObjectFactory.get(driver);
         if (Platform.getInstance().isAndroid()) {
             myListPageObject
@@ -90,7 +112,9 @@ public class ArticleTests extends CoreTestCase
             myListPageObject
                     .swipeByArticleToDelete(searchSecondValue);
         }
-        String articleTitle = articlePageObject.getArticleTitleInList();
-        assertEquals("First document is not in the list",firstTitleText, articleTitle);
+        assertEquals("First document is not in the list","Java (programming language)", articleTitle);
+        if (Platform.getInstance().isMW()){
+            myListPageObject.CheckCountAndArticleInList("Java (programming language)");
+        }
     }
 }

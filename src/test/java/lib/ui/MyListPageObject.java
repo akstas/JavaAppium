@@ -2,7 +2,16 @@ package lib.ui;
 
 import io.appium.java_client.AppiumDriver;
 import lib.Platform;
+import lib.ui.factories.ArticlePageObjectFactory;
+import org.junit.Assert;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebDriver;
+
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
 
 abstract public class MyListPageObject extends MainPageObject{
 
@@ -10,7 +19,9 @@ abstract public class MyListPageObject extends MainPageObject{
             FOLDER_BY_NAME_TPL,
             ARTICLE_BY_TITLE_TPL,
             SWIPE_ACTION_DELETE,
-            REMOVE_FROM_SAVED_BUTTON;
+            REMOVE_FROM_SAVED_BUTTON,
+            CONTENT_COUNT,
+            PAGE_HEADING;
 
     public MyListPageObject(RemoteWebDriver driver)
     {
@@ -34,6 +45,10 @@ abstract public class MyListPageObject extends MainPageObject{
     {
         return ARTICLE_BY_TITLE_TPL.replace("{TITLE}", folderName);
     }
+    private static String getXpathByNameInPage(String folderName)
+    {
+        return PAGE_HEADING.replace("{TITLE}", folderName);
+    }
 
     public MyListPageObject swipeByArticleToDelete(String articleTitle)
     {
@@ -52,18 +67,14 @@ abstract public class MyListPageObject extends MainPageObject{
                     10
             );
         }
-
         if (Platform.getInstance().isIOS()){
             this.clickElementToTheRightUpperCorer(articleXpath, "Cannot find saved article");
             this.waitForElementPresentAndClick(SWIPE_ACTION_DELETE, "Cannot find delete button", 10);
         }
-
         if (Platform.getInstance().isMW()){
             driver.navigate().refresh();
         }
-
         this.waitForArticleToDisappearByTitle(articleTitle);
-
         return this;
     }
 
@@ -86,5 +97,23 @@ abstract public class MyListPageObject extends MainPageObject{
     {
         String articleXpath = getSavedArticleXpathByName(articleTitle);
         this.waitForElementPresent(articleXpath, "Saved article still not present with title " + articleTitle, 15);
+    }
+
+    public void CheckCountAndArticleInList(String articleTitle){
+
+        List<WebElement> elements = driver.findElements(By.cssSelector(CONTENT_COUNT));  //getAmountOfElement
+        String articleXpathInList = getSavedArticleXpathByName(articleTitle);
+        int a = elements.size();
+        if (elements.size() == 1){
+            this.waitForElementPresentAndClick(
+                    articleXpathInList,
+                    "Article not present",
+                    1);
+        }
+       // String articleXpathInPage = getXpathByNameInPage(articleTitle);
+        ArticlePageObject articlePageObject = ArticlePageObjectFactory.get(driver);
+        String getTextTittle = articlePageObject.getArticleTitle();
+        Assert.assertEquals("Title not expected",getTextTittle, articleTitle);
+
     }
 }

@@ -5,6 +5,7 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 
 public class MWArticlePageObject extends ArticlePageObject {
     static {
+        TITLE = "css:section_0";
         TITLE_IN_LIST = "id:section_0";
         FOOTER_ELEMENT = "css:mw-footer";
         OPTIONS_ADD_TO_MY_LIST_BUTTON = "xpath://*[@id='ca-watch']";  //"xpath://*[@id='ca-watch']";//"css:#page-actions-watch mw-ui-icon-wikimedia-star-base20";
