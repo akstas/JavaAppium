@@ -11,7 +11,7 @@ public class FirstTest extends CoreTestCase {
     {
         SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
         searchPageObject
-                .initSearchInput()
+                .initSearchInput(false)
                 .typeSearchLine("Kotlin")
                 .waitForSearchResult("Programming language");
     }

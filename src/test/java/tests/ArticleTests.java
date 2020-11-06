@@ -11,7 +11,6 @@ import lib.ui.factories.MyListPageObjectFactory;
 import lib.ui.factories.NavigationUIFactory;
 import lib.ui.factories.SearchPageObjectFactory;
 import lib.ui.mobile_web.AuthorizationPageObject;
-import org.junit.Assert;
 import org.junit.Test;
 
 public class ArticleTests extends CoreTestCase
@@ -27,7 +26,7 @@ public class ArticleTests extends CoreTestCase
         String titleName = "Object-oriented programming language";
         SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
         searchPageObject
-                .initSearchInput()
+                .initSearchInput(false)
                 .typeSearchLine("Java")
                 .clickByArticleWithSubstring(titleName);
         ArticlePageObject articlePageObject = ArticlePageObjectFactory.get(driver);
@@ -39,7 +38,7 @@ public class ArticleTests extends CoreTestCase
     {
         SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
         searchPageObject
-                .initSearchInput()
+                .initSearchInput(false)
                 .typeSearchLine("Java")
                 .clickByArticleWithSubstring("Object-oriented programming language");
         ArticlePageObject articlePageObject = ArticlePageObjectFactory.get(driver);
@@ -55,7 +54,7 @@ public class ArticleTests extends CoreTestCase
         String folderName = "Learning programming";
         SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
         searchPageObject
-                .initSearchInput()
+                .initSearchInput(false)
                 .typeSearchLine(searchFirstValue)
                 .clickByArticleWithSubstring(firstTitleText);
         ArticlePageObject articlePageObject = ArticlePageObjectFactory.get(driver);
@@ -85,7 +84,7 @@ public class ArticleTests extends CoreTestCase
             articlePageObject.addArticleToMySaved();
         }
         articlePageObject.closeArticle();
-        searchPageObject.initSearchInput();
+        searchPageObject.initSearchInput(false);
         if (Platform.getInstance().isIOS()) {
             searchPageObject.EraseSearchInput();
         }

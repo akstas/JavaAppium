@@ -13,7 +13,7 @@ public class SearchTests extends CoreTestCase {
         String searchLineValue = "Linkin Park Diskography";
         SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
         searchPageObject
-                .initSearchInput()
+                .initSearchInput(false)
                 .typeSearchLine(searchLineValue);
         int amountOfSearchResults = searchPageObject.getAmmountOfFoundArticles();
         assertTrue("We found too few result", amountOfSearchResults > 0);
@@ -24,7 +24,7 @@ public class SearchTests extends CoreTestCase {
         String searchLineValue = "Android Kotlin";
         SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
         searchPageObject
-                .initSearchInput()
+                .initSearchInput(false)
                 .typeSearchLine(searchLineValue)
                 .waitForEmptyResultsLabel()
                 .assertThereIsNotResultsOfSearch();
@@ -35,7 +35,7 @@ public class SearchTests extends CoreTestCase {
     {
         SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
         searchPageObject
-                .initSearchInput()
+                .initSearchInput(false)
                 .waitForCancelButtonToAppear()
                 .clickCancelSearch()
                 .waitForCancelButtonToDisapear();
@@ -46,7 +46,7 @@ public class SearchTests extends CoreTestCase {
     {
         SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
         searchPageObject
-                .initSearchInput()
+                .initSearchInput(false)
                 .typeSearchLine("Android");
         int searchResultAmmountBefore = searchPageObject.getAmmountOfFoundArticles();
         assertTrue("Articles not still on the list", searchResultAmmountBefore > 0);
@@ -61,7 +61,7 @@ public class SearchTests extends CoreTestCase {
 
         SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
         searchPageObject
-                .initSearchInput()
+                .initSearchInput(false)
                 .typeSearchLine(searchValue)
                 .clickByArticleWithSubstring(textTitle);
         ArticlePageObject articlePageObject = ArticlePageObjectFactory.get(driver);
@@ -70,7 +70,7 @@ public class SearchTests extends CoreTestCase {
     }
 
     @Test
-    public void testSearchTitleAndDiscriptionEx9() {
+    public void testSearchTitleAndDiscriptionEx9() throws InterruptedException {
         String searchFirstValue = "Java";
         String titleFirstValue = "Java (programming language)";
         String searchSecondValue = "Android";
@@ -80,20 +80,20 @@ public class SearchTests extends CoreTestCase {
 
         SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
         searchPageObject
-                .initSearchInput()
+                .initSearchInput(false)
                 .typeSearchLine(searchFirstValue);
         searchPageObject.waitForElementByTitleAndDescription(titleFirstValue, "Object-oriented programming language");
         searchPageObject.clickCancelSearch();
 
         searchPageObject
-                .initSearchInput()
+                .initSearchInput(true)
                 .typeSearchLine(searchSecondValue);
-        searchPageObject.waitForElementByTitleAndDescription(titleSecondValue, "Open-source operating system for mobile devices created by Google");
+        searchPageObject.waitForElementByTitleAndDescription(titleSecondValue, "Mobile operating system");
         searchPageObject.clickCancelSearch();
 
         searchPageObject
-                .initSearchInput()
+                .initSearchInput(true)
                 .typeSearchLine(searchThirdValue);
-        searchPageObject.waitForElementByTitleAndDescription(titleThirdValue, "Programming language");
+        searchPageObject.waitForElementByTitleAndDescription(titleThirdValue, "General-purpose programming language");
     }
 }

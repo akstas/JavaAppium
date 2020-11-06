@@ -25,7 +25,7 @@ public class MyListTests extends CoreTestCase
     public void testSaveFirstArticleToMyList() throws InterruptedException {
         SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
         searchPageObject
-                .initSearchInput()
+                .initSearchInput(false)
                 .typeSearchLine("Java")
                 .clickByArticleWithSubstring("Object-oriented programming language");
         ArticlePageObject articlePageObject = ArticlePageObjectFactory.get(driver);

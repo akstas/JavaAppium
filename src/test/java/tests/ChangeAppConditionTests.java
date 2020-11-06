@@ -21,7 +21,7 @@ public class ChangeAppConditionTests extends CoreTestCase
         String attributeTitle = "Java (programming language)";
         SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
         searchPageObject
-                .initSearchInput()
+                .initSearchInput(false)
                 .typeSearchLine(searchValue)
                 .clickByArticleWithSubstring(attributeTitle);
         ArticlePageObject ArticlePageObject = ArticlePageObjectFactory.get(driver);
@@ -46,7 +46,7 @@ public class ChangeAppConditionTests extends CoreTestCase
         String attributeTitle = "Object-oriented programming language";
         SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
         searchPageObject
-                .initSearchInput()
+                .initSearchInput(false)
                 .typeSearchLine(searchValue)
                 .waitForSearchResult(attributeTitle);
         backgroundApp(2);

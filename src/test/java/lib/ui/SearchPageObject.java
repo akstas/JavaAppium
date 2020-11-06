@@ -2,7 +2,14 @@ package lib.ui;
 
 import io.appium.java_client.AppiumDriver;
 import lib.Platform;
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.util.List;
 
 abstract public class SearchPageObject extends MainPageObject
 {
@@ -22,10 +29,19 @@ abstract public class SearchPageObject extends MainPageObject
             SEARCH_LOCATOR_RREPLACE_TPL;
 
 
-    public SearchPageObject initSearchInput()
+    public SearchPageObject initSearchInput(boolean bl)
     {
         waitForElementPresentAndClick(SEARCH_INIT_ELEMENT,"Cannot find and click search init element",5);
-        waitForElementPresent(SEARCH_INIT_ELEMENT,"Cannot find search input after clicking search init element", 5);
+        if (bl) {
+            clickMiniClearTextButtonInput();
+        }
+        return this;
+    }
+    public SearchPageObject clickMiniClearTextButtonInput()
+    {
+        By strByBy = getLocatorByString(SEARCH_CLEAR_MINI);
+        List<WebElement> elements = driver.findElements(strByBy);
+        elements.get(0).click();
         return this;
     }
     public SearchPageObject typeSearchLine(String searchLine)
@@ -49,10 +65,15 @@ abstract public class SearchPageObject extends MainPageObject
         return SEARCH_LOCATOR_RREPLACE_TPL.replace("{SUBSTRINGTITLE}", substring).replace("{SUBSTRINGDESCRIPTION}", description);
     }
     /*TEMPLATES METHOD*/
-    public SearchPageObject waitForElementByTitleAndDescription(String substring, String description)
-    {
-        String searchResultXpath = testMethodEx9(substring, description);
-        waitForElementPresent(searchResultXpath, "Cannot find search result with substring SIBLING : ", 5);
+    public SearchPageObject waitForElementByTitleAndDescription(String substring, String description) throws InterruptedException {
+        Thread.sleep(1000);
+        if(!Platform.getInstance().isMW()){
+            String searchResultXpath = testMethodEx9(substring, description);
+            waitForElementPresent(searchResultXpath, "Cannot find search result with substring SIBLING : ", 5);
+        } else {
+            String searchResultXpath = testMethodEx9(substring.substring(5), description);
+            waitForElementPresent(searchResultXpath, "Cannot find search result with substring SIBLING : ", 5);
+        }
         return this;
     }
     public SearchPageObject waitForCancelButtonToAppear()
@@ -66,7 +87,7 @@ abstract public class SearchPageObject extends MainPageObject
         {
             this.waitForElementPresentAndClick(SEARCH_CANCEL_BUTTON, "Cannot click to X element", 5);
 
-        } else {
+        } else if (Platform.getInstance().isIOS() || Platform.getInstance().isMW()) {
             EraseSearchInput();
         }
         return this;

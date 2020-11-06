@@ -160,7 +160,7 @@ public class MainPageObject {
         return element;
     }
 
-    private By getLocatorByString(String locatorWithType)
+    protected By getLocatorByString(String locatorWithType)
     {
         String[] explodedLocator = locatorWithType.split(Pattern.quote(":"), 2);
         String byType = explodedLocator[0];
@@ -169,7 +169,8 @@ public class MainPageObject {
         else if (byType.equals("id")){return By.id(locator);}
         else if (byType.equals("name")){return By.name(locator);}
         else if (byType.equals("css")){return By.cssSelector(locator);}
-        else{ throw new IllegalArgumentException("Cannot get type of locator. Locator: " + locatorWithType);}
+        else{ throw new IllegalArgumentException("Cannot get type of locator. Locator: " + locatorWithType);
+        }
     }
     public void clickElementToTheRightUpperCorer(String locator, String errorMessage)
     {
